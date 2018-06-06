@@ -1,11 +1,17 @@
 ## Project: Perception Pick & Place
-### Writeup Template: You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
+### Writeup  by Divya Patel ###
 
----
+This project allowed us to really get down and dirty with the perception pipeline and figure out how to best understand machine learning as well as work on methods of avoiding collisions and clearing the various maps so that the robot can best pick up the objects. There is a high learning curve for ROS and Gazebo but the extra time allocated to working on this project and pushing through creates oppurtunities to really learn the tools needed to have a successful pick and place.
 
+The required steps for passing submission are listed below and I will narrate what I have done to do these steps.
+# This writeup is in progress #
 
 # Required Steps for a Passing Submission:
-1. Extract features and train an SVM model on new objects (see `pick_list_*.yaml` in `/pr2_robot/config/` for the list of models you'll be trying to identify). 
+
+1. Extract features and train an SVM model on new objects (see `pick_list_*.yaml` in `/pr2_robot/config/` for the list of models you'll be trying to identify): 
+  I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects.
+  The features.py script located here 
+These files are located here and here 
 2. Write a ROS node and subscribe to `/pr2/world/points` topic. This topic contains noisy point cloud data that you must work with.
 3. Use filtering and RANSAC plane fitting to isolate the objects of interest from the rest of the scene.
 4. Apply Euclidean clustering to create separate clusters for individual items.
