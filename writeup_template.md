@@ -7,6 +7,9 @@ One of the things I really learned was to correctly set the bashrc file, update 
 
 Using a tilda didn't help my situation as the bashrc file didn't really know where to go. so I modified by adding the full path here and it solved many of my problems. I was consistently having many problems and found that this and also an update on the vmware ubuntu caused all of these problems, I also needed to update certain packages and googled endlessly to figure out the cures. I eventually started completely over and simplified my approach to see where the problems where. Turns out I wasn't the only one having these issues so I hope this writeup will help others. 
 
+Besides dividing by 0 because you have an empty cloud this is another error you get if you don't source the bashrc file correctly.
+![error](pr2_robot/images_writeup/100_Error_2018_05_22.png)
+
 Make sure you source your bashrc file CORRECTLY. 
 export GAZEBO_MODEL_PATH=/home/robond/catkin_ws/src/RoboND-Perception-Project/pr2_robot/models:$GAZEBO_MODEL_PATH
 export GAZEBO_MODEL_PATH=/home/robond/catkin_ws/src/sensor_stick/models
@@ -92,7 +95,7 @@ Identified Objects
 Confusion Matrix
 ![world_3_matrix](pr2_robot/images_writeup/09_confusion_matrix_world3.png)
 Identified Objects
-![world_3_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![world_3_identified](pr2_robot/images_writeup/10_world3_identified.png)
 
 Then of course here is the clustered and filtered picture as I promised.
 
@@ -129,7 +132,7 @@ I moved on to complete the Pick and Place extra challenge. I published a pointcl
 
 I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get some of the objects into the boxes. unfortunately my robot liked to throw things around and I wasn't able to get a picture with all the objects in the boxes, however the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map.
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![two_objects](pr2_robot/images_writeup/12_two_objects_in_bin.png)
 ![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
 
 I then looked for that bigger challenge and loaded up the `challenge.world` scenario. Here are my results. 
