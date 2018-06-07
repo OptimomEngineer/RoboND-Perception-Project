@@ -42,24 +42,62 @@ rosrun sensor_stick capture_features.py
 Finally train the captured_features using the train_svm.py script. (you will need a training_set.sav file in the same directory you run this script)
 rosrun sensor_stick train_svm.py
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+Here I show you the Exersize 3 objects that I had previously trained. Further in the write up I will show you all the different worlds.
+
+
+![training](pr2_robot/images_writeup/05_trained_images_svm.png)
 
 I wrote a ROS node and subscribe to `/pr2/world/points` topic. This topic contains noisy point cloud data that we needed to modify in order to make the data usable for idenfitication and pick up. 
+
 pcl_sub = rospy.Subscriber("/sensor_stick/point_cloud", pc2.PointCloud2, pcl_callback, queue_size =1)
+
 Since this data came in as a ROS pointcloud2, we needed to obtain the pcl data in order to manipulate the data, luckily udacity provided some helper functions to help with this task. This link is located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/blob/master/pr2_robot/scripts/pcl_helper.py)
 
-Finally we used various kinds of filtering, RANSAC plane fitting isolate the objects of interest from the rest of the scene. This took some time since at first I had quiet a bit of the table still included in the objects isolation. I wanted created a filter for all three axis' in order to completely identify all the objects. I was missing an object or including objects I didn't want to until I had the correct filtering conditions that worked to identify all the objects. I also included a k-means euclidean filtering and gave each object a unique color. Udacity's helper file eased the process by including some functions that helped generate random colors.
+Finally we used various kinds of filtering, RANSAC plane fitting isolate the objects of interest from the rest of the scene. 
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+Here is a passthrough filter example from the exercise objects: 
+
+![pass_through_filtered](pr2_robot/images_writeup/01_pcdviewer_mesh.png)
+
+The additional filtering took some time since at first I had quiet a bit of the table still included in the objects isolation. I wanted created a filter for all three axis' in order to completely identify all the objects. 
+This shows a table sliver and then without the sliver for the exercise objects. The same will be shown for the project objects below.
+
+![table_sliver](pr2_robot/images_writeup/02_segmentation_table_sliver.png)
+![without_sliver](pr2_robot/images_writeup/03_segmented_objects.png)
+
+Here is the extra "bar" from the table shown from the projects. I needed to add an additional couple of filters in different axis' in order to compensate for this. You can see the robot is seeing the bar as "biscuits"! 
+![with_bar](pr2_robot/images_writeup/09b_objects_with_bar_xaxis_issue.png)
+
+I was missing an object or including objects I didn't want to until I had the correct filtering conditions that worked to identify all the objects. I also included a k-means euclidean filtering and gave each object a unique color. Udacity's helper file eased the process by including some functions that helped generate random colors.
+
+
 
 Finally I located the centriod, though I feel like i could have extended this further to create a centroid from the max, mean and min values, I only developed the centroid from the mean value. I think the robot would have an easier time grasping the objects with a centroid created from mulitple values. 
 
-Each world recognition is shown below and the associated .yaml files are located [here](
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+
+Each world recognition is shown below and the associated .yaml files are located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/tree/master/pr2_robot/output)
+### World 1:
+Confusion Matrix
+![world_1_matrix](pr2_robot/images_writeup/06b_extra_confusion_matrix_world1.png)
+Identified Objects
+![world_1_identified](pr2_robot/images_writeup/06_world_1_objects.png)
+### World 2:
+Confusion Matrix
+![world_2_matrix](pr2_robot/images_writeup/08a_confusion_matrix_world2.png)
+Identified Objects
+![world_2_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+### World 3:
+Confusion Matrix
+![world_3_matrix](pr2_robot/images_writeup/09_confusion_matrix_world3.png)
+Identified Objects
+![world_3_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+Then of course here is the clustered and filtered picture as I promised.
+
+![world_1_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
 
 
 100% of all items were identified using the code.
