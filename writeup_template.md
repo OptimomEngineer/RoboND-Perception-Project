@@ -119,18 +119,17 @@ rosrun pr2_robot project_template.py
 
 The program will continue until all the objects have been placed into the bin.
 
-I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of 1.5 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge
+#### Collision Map of side tables:
+I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of (+/-)1.57 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge. I compared the subscribed value to the given value and then when reached i wanted to create a collision map and then append to the one I created for objects and table. I ran out of time and need to figure out how to take a snapshot of my new view to save and then append. 
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-
+#### pick and place with current front view (without collision map of side tables)
 I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
 
-here you see the confusion matrix for the first object in world 2 for biscuits.
+here you see the collision map for the first object in world 2 for biscuits.
 
 ![collision_map_biscuits](pr2_robot/images_writeup/12aaa_confusion_matrix_first_object_biscuits.png)
 
-After the biscuits had been picked up, a new confusion map with the glue removed from the collision map is available and the robot is ready to pick up the object.
+After the biscuits had been picked up, a new collision map with the glue and biscuits removed from the collision map is created and the robot is ready to pick up the new object which in this case is glue. This will continue until every object is moved out of the vision of the robot.
 
 ![collision_map_glue](pr2_robot/images_writeup/12a_newconfusion_matrix_glue.png)
 
@@ -144,6 +143,7 @@ I then looked for that bigger challenge and loaded up the `challenge.world` scen
 
 
 
-I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do. Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge.
+I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do. Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge. 
+I would like to figure out how to snapshot the side tables and filter for adding to my collision map. I would also like to put some conditional statements in to control the robots capability to continue to try to pick up current object until it is off the table. I didn't like how the robot would miss its target and then move on to the next one...
 
 
