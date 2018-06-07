@@ -26,7 +26,7 @@ python-pcl 0.2 has requirement Cython>=0.25.2, but you have cython 0.23.4.
 Finally, if you have this issue: ImportError: numpy.core.multiarray failed to import
 Use this line: sudo pip install -U numpy 
 
-![pcl_error](RoboND-Perception-Project/pr2_robot/images_writeup/06e_pcl_error_fix.png)
+![pcl_error](pr2_robot/images_writeup/06e_pcl_error_fix.png)
 
   I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects which is located [here](https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/scripts/capture_features.py). 
   The features.py script located [here](https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/src/sensor_stick/features.py) which allowed me to set the histogram settings in order to correctly determine the object. 
