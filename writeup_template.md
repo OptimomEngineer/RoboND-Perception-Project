@@ -77,29 +77,32 @@ Finally I located the centriod, though I feel like i could have extended this fu
 
 
 Each world recognition is shown below and the associated .yaml files are located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/tree/master/pr2_robot/output)
+Then of course here is the identified and then clustered and filtered picture as I promised with the confusion matrix for each world.
 ### World 1:
 Confusion Matrix
 ![world_1_matrix](pr2_robot/images_writeup/06b_extra_confusion_matrix_world1.png)
 Identified Objects
 ![world_1_identified](pr2_robot/images_writeup/06_world_1_objects.png)
+Identified with mesh
+![world_1_mesh](pr2_robot/images_writeup/16aa_world1_with_cluster.png)
 ### World 2:
 Confusion Matrix
 ![world_2_matrix](pr2_robot/images_writeup/08a_confusion_matrix_world2.png)
 Identified Objects
 ![world_2_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+Identified with mesh
+![world_2_mesh](pr2_robot/images_writeup/16a_world2_with_cluster.png)
 ### World 3:
 Confusion Matrix
 ![world_3_matrix](pr2_robot/images_writeup/09_confusion_matrix_world3.png)
 Identified Objects
 ![world_3_identified](pr2_robot/images_writeup/10_world3_identified.png)
-
-Then of course here is the clustered and filtered picture as I promised.
-
-![world_1_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+Identified with mesh
+![world_3_mesh](pr2_robot/images_writeup/16_world_3_with_cluster.png)
 
 
 
-100% of all items were identified using the code.
+As you can see for each world, 100% of all items were identified using the code.
 
 You would need to change the pick_place_project.launch file with the correct yaml file and world file numbers. In the future I would add a prompt to the user to enter this and automatically have this set up with the command line.
 
