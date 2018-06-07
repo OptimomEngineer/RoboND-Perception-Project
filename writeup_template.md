@@ -2,51 +2,103 @@
 ### Writeup  by Divya Patel ###
 
 This project allowed us to really get down and dirty with the perception pipeline and figure out how to best understand machine learning as well as work on methods of avoiding collisions and clearing the various maps so that the robot can best pick up the objects. There is a high learning curve for ROS and Gazebo but the extra time allocated to working on this project and pushing through creates oppurtunities to really learn the tools needed to have a successful pick and place.
+One of the things I really learned was to correctly set the bashrc file.
 
-The required steps for passing submission are listed below and I will narrate what I have done to do these steps.
-# This writeup is in progress #
+using a tilda didn't help my situation as the bashrc file didn't really know where to go. so I modified by adding the full path here and it solved many of my problems. I was consistently having many problems and found that this and also an update on the vmware ubuntu caused all of these problems. I eventually started completely over and simplified my approach to see where the problems where. Turns out I wasn't the only one having this issues so I hope this writeup will help others.
 
-# Required Steps for a Passing Submission:
+Make sure you source your bashrc file CORRECTLY. 
+export GAZEBO_MODEL_PATH=/home/robond/catkin_ws/src/RoboND-Perception-Project/pr2_robot/models:$GAZEBO_MODEL_PATH
+export GAZEBO_MODEL_PATH=/home/robond/catkin_ws/src/sensor_stick/models
+source /home/robond/catkin_ws/devel/setup.bash
 
-1. Extract features and train an SVM model on new objects (see `pick_list_*.yaml` in `/pr2_robot/config/` for the list of models you'll be trying to identify): 
-  I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects which is located [here] [https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/scripts/capture_features.py]
-  The features.py script located here 
-These files are located here and here 
-2. Write a ROS node and subscribe to `/pr2/world/points` topic. This topic contains noisy point cloud data that you must work with.
-3. Use filtering and RANSAC plane fitting to isolate the objects of interest from the rest of the scene.
-4. Apply Euclidean clustering to create separate clusters for individual items.
-5. Perform object recognition on these objects and assign them labels (markers in RViz).
-6. Calculate the centroid (average in x, y and z) of the set of points belonging to that each object.
-7. Create ROS messages containing the details of each object (name, pick_pose, etc.) and write these messages out to `.yaml` files, one for each of the 3 scenarios (`test1-3.world` in `/pr2_robot/worlds/`).  [See the example `output.yaml` for details on what the output should look like.](https://github.com/udacity/RoboND-Perception-Project/blob/master/pr2_robot/config/output.yaml)  
-8. Submit a link to your GitHub repo for the project or the Python code for your perception pipeline and your output `.yaml` files (3 `.yaml` files, one for each test world).  You must have correctly identified 100% of objects from `pick_list_1.yaml` for `test1.world`, 80% of items from `pick_list_2.yaml` for `test2.world` and 75% of items from `pick_list_3.yaml` in `test3.world`.
-9. Congratulations!  Your Done!
+Also do not under any circumstance update the vmware ubuntu using sudo apt-get update, alot of your scripts will not be compatible and it messes with the libraries. You do not need the update. You will need to update the pip install to install the scilearn and also the pcl library. Looks like the pip would need upgrading: wanted to let everyone know to use: the following inside the VM as the normal upgrade line wasn't working. The best way to do that is to use easy upgrade to pip 10.0: 
 
-# Extra Challenges: Complete the Pick & Place
-7. To create a collision map, publish a point cloud to the `/pr2/3d_map/points` topic and make sure you change the `point_cloud_topic` to `/pr2/3d_map/points` in `sensors.yaml` in the `/pr2_robot/config/` directory. This topic is read by Moveit!, which uses this point cloud input to generate a collision map, allowing the robot to plan its trajectory.  Keep in mind that later when you go to pick up an object, you must first remove it from this point cloud so it is removed from the collision map!
-8. Rotate the robot to generate collision map of table sides. This can be accomplished by publishing joint angle value(in radians) to `/pr2/world_joint_controller/command`
-9. Rotate the robot back to its original state.
-10. Create a ROS Client for the “pick_place_routine” rosservice.  In the required steps above, you already created the messages you need to use this service. Checkout the [PickPlace.srv](https://github.com/udacity/RoboND-Perception-Project/tree/master/pr2_robot/srv) file to find out what arguments you must pass to this service.
-11. If everything was done correctly, when you pass the appropriate messages to the `pick_place_routine` service, the selected arm will perform pick and place operation and display trajectory in the RViz window
-12. Place all the objects from your pick list in their respective dropoff box and you have completed the challenge!
-13. Looking for a bigger challenge?  Load up the `challenge.world` scenario and see if you can get your perception pipeline working there!
+#### sudo easy_install -U pip ####
 
-## [Rubric](https://review.udacity.com/#!/rubrics/1067/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+If you get the error: cannot resolve publisher host, shutdown your vmware and restart your computer or manually set your IP in the bashrc file.
 
----
-### Writeup / README
+You may need to update certain packages if you get: 
+pip check
+launchpadlib 1.10.3 requires testresources, which is not installed.
+python-pcl 0.2 has requirement Cython>=0.25.2, but you have cython 0.23.4.
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
+Finally, if you have this issue: ImportError: numpy.core.multiarray failed to import
+Use this line: sudo pip install -U numpy 
 
-You're reading it!
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
 
-### Exercise 1, 2 and 3 pipeline implemented
-#### 1. Complete Exercise 1 steps. Pipeline for filtering and RANSAC plane fitting implemented.
+  I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects which is located [here](https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/scripts/capture_features.py). 
+  The features.py script located [here](https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/src/sensor_stick/features.py) which allowed me to set the histogram settings in order to correctly determine the object. 
+  
+to train objects first generate features, make sure your list in capture_features.py is correct.
+cd ~/catkin_ws
+roslaunch sensor_stick training.launch
 
-#### 2. Complete Exercise 2 steps: Pipeline including clustering for segmentation implemented.  
+Run your capture_features.py script.
+cd ~/catkin_ws/src/sensor_stick/scripts/
+rosrun sensor_stick capture_features.py
 
-#### 2. Complete Exercise 3 Steps.  Features extracted and SVM trained.  Object recognition implemented.
-Here is an example of how to include an image in your writeup.
+Finally train the captured_features using the train_svm.py script. (you will need a training_set.sav file in the same directory you run this script)
+rosrun sensor_stick train_svm.py
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+I wrote a ROS node and subscribe to `/pr2/world/points` topic. This topic contains noisy point cloud data that we needed to modify in order to make the data usable for idenfitication and pick up. 
+pcl_sub = rospy.Subscriber("/sensor_stick/point_cloud", pc2.PointCloud2, pcl_callback, queue_size =1)
+Since this data came in as a ROS pointcloud2, we needed to obtain the pcl data in order to manipulate the data, luckily udacity provided some helper functions to help with this task. This link is located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/blob/master/pr2_robot/scripts/pcl_helper.py)
+
+Finally we used various kinds of filtering, RANSAC plane fitting isolate the objects of interest from the rest of the scene. This took some time since at first I had quiet a bit of the table still included in the objects isolation. I wanted created a filter for all three axis' in order to completely identify all the objects. I was missing an object or including objects I didn't want to until I had the correct filtering conditions that worked to identify all the objects. I also included a k-means euclidean filtering and gave each object a unique color. Udacity's helper file eased the process by including some functions that helped generate random colors.
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+Finally I located the centriod, though I feel like i could have extended this further to create a centroid from the max, mean and min values, I only developed the centroid from the mean value. I think the robot would have an easier time grasping the objects with a centroid created from mulitple values. 
+
+Each world recognition is shown below and the associated .yaml files are located [here](
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+
+100% of all items were identified using the code.
+
+You would need to change the pick_place_project.launch file with the correct yaml file and world file numbers. In the future I would add a prompt to the user to enter this and automatically have this set up with the command line.
+
+To test the trained objects with the project like I did, you can go into the correct directory:
+cd ~/catkin_ws
+then run: 
+roslaunch pr2_robot pick_place_project.launch
+
+then start the script: 
+go into this directory: 
+cd ~/catkin_ws/src/RoboND-Perception-Project/pr2_robot/scripts/
+
+rosrun pr2_robot project_template.py
+
+The program will continue until all the objects have been placed into the bin.
+
+I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of 1.5 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get some of the objects into the boxes. unfortunately my robot liked to throw things around and I wasn't able to get a picture with all the objects in the boxes, however the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map.
+
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+
+I then looked for that bigger challenge and loaded up the `challenge.world` scenario. Here are my results. 
+
+
+
+
+I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. 
 
 ![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
 
