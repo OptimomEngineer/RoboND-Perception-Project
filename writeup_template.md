@@ -9,7 +9,7 @@ The required steps for passing submission are listed below and I will narrate wh
 # Required Steps for a Passing Submission:
 
 1. Extract features and train an SVM model on new objects (see `pick_list_*.yaml` in `/pr2_robot/config/` for the list of models you'll be trying to identify): 
-  I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects which is located [here:] (https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/scripts/capture_features.py)
+  I used the pick list files located in the config folder to change the models list in the capture_features script that I ammended in order to train the objects which is located [here] (https://github.com/OptimomEngineer/RoboND-Perception-Exercises/blob/master/Exercise-3/sensor_stick/scripts/capture_features.py)
   The features.py script located here 
 These files are located here and here 
 2. Write a ROS node and subscribe to `/pr2/world/points` topic. This topic contains noisy point cloud data that you must work with.
