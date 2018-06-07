@@ -1,7 +1,7 @@
 ## Project: Perception Pick & Place
 ### Writeup  by Divya Patel ###
 
-This project allowed us to really get down and dirty with the perception pipeline and figure out how to best understand machine learning as well as work on methods of avoiding collisions and clearing the various maps so that the robot can best pick up the objects. There is a high learning curve for ROS and Gazebo but the extra time allocated to working on this project and pushing through creates oppurtunities to really learn the tools needed to have a successful pick and place.
+This project allowed me to really get down and dirty with the perception pipeline and figure out how to best understand machine learning as well as work on methods of avoiding collisions and clearing the various maps so that the robot can best pick up the objects. There is a high learning curve for ROS and Gazebo but the extra time I allocated to working on this project and pushing through creates oppurtunities to really learn the tools needed to have a successful pick and place.
 
 One of the things I really learned was to correctly set the bashrc file, update certain packages and do not update ubuntu. I had to many system issues and it really helped me learn linux extremely well.
 
