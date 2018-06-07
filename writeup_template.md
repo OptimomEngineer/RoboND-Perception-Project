@@ -2,9 +2,10 @@
 ### Writeup  by Divya Patel ###
 
 This project allowed us to really get down and dirty with the perception pipeline and figure out how to best understand machine learning as well as work on methods of avoiding collisions and clearing the various maps so that the robot can best pick up the objects. There is a high learning curve for ROS and Gazebo but the extra time allocated to working on this project and pushing through creates oppurtunities to really learn the tools needed to have a successful pick and place.
-One of the things I really learned was to correctly set the bashrc file.
 
-using a tilda didn't help my situation as the bashrc file didn't really know where to go. so I modified by adding the full path here and it solved many of my problems. I was consistently having many problems and found that this and also an update on the vmware ubuntu caused all of these problems. I eventually started completely over and simplified my approach to see where the problems where. Turns out I wasn't the only one having this issues so I hope this writeup will help others.
+One of the things I really learned was to correctly set the bashrc file, update certain packages and do not update ubuntu. I had to many system issues and it really helped me learn linux extremely well.
+
+Using a tilda didn't help my situation as the bashrc file didn't really know where to go. so I modified by adding the full path here and it solved many of my problems. I was consistently having many problems and found that this and also an update on the vmware ubuntu caused all of these problems, I also needed to update certain packages and googled endlessly to figure out the cures. I eventually started completely over and simplified my approach to see where the problems where. Turns out I wasn't the only one having these issues so I hope this writeup will help others. 
 
 Make sure you source your bashrc file CORRECTLY. 
 export GAZEBO_MODEL_PATH=/home/robond/catkin_ws/src/RoboND-Perception-Project/pr2_robot/models:$GAZEBO_MODEL_PATH
@@ -98,18 +99,6 @@ I then looked for that bigger challenge and loaded up the `challenge.world` scen
 
 
 
-I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. 
-
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-
-### Pick and Place Setup
-
-#### 1. For all three tabletop setups (`test*.world`), perform object recognition, then read in respective pick list (`pick_list_*.yaml`). Next construct the messages that would comprise a valid `PickPlace` request output them to `.yaml` format.
-
-And here's another image! 
-![demo-2](https://user-images.githubusercontent.com/20687560/28748286-9f65680e-7468-11e7-83dc-f1a32380b89c.png)
-
-Spend some time at the end to discuss your code, what techniques you used, what worked and why, where the implementation might fail and how you might improve it if you were going to pursue this project further.  
-
+I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do.
 
 
