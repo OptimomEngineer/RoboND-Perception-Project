@@ -89,7 +89,7 @@ Identified with mesh
 Confusion Matrix
 ![world_2_matrix](pr2_robot/images_writeup/08a_confusion_matrix_world2.png)
 Identified Objects
-![world_2_identified](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![world_2_identified](pr2_robot/images_writeup/08_object_world_2_identified.png)
 Identified with mesh
 ![world_2_mesh](pr2_robot/images_writeup/16a_world2_with_cluster.png)
 ### World 3:
