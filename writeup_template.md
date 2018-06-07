@@ -73,11 +73,7 @@ Here is the extra "bar" from the table shown from the projects. I needed to add 
 
 I was missing an object or including objects I didn't want to until I had the correct filtering conditions that worked to identify all the objects. I also included a k-means euclidean filtering and gave each object a unique color. Udacity's helper file eased the process by including some functions that helped generate random colors.
 
-
-
 Finally I located the centriod, though I feel like i could have extended this further to create a centroid from the max, mean and min values, I only developed the centroid from the mean value. I think the robot would have an easier time grasping the objects with a centroid created from mulitple values. 
-
-
 
 
 Each world recognition is shown below and the associated .yaml files are located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/tree/master/pr2_robot/output)
@@ -127,19 +123,24 @@ I rotated the robot with a function I created using the simple mover coding we h
 
 I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
 
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+here you see the confusion matrix for the first object in world 2 for biscuits.
+
+![collision_map_biscuits](pr2_robot/images_writeup/12aaa_confusion_matrix_first_object_biscuits.png)
+
+After the biscuits had been picked up, a new confusion map with the glue removed from the collision map is available and the robot is ready to pick up the object.
+
+![collision_map_glue](pr2_robot/images_writeup/12a_newconfusion_matrix_glue.png)
 
 I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get some of the objects into the boxes. unfortunately my robot liked to throw things around and I wasn't able to get a picture with all the objects in the boxes, however the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map.
 
 ![two_objects](pr2_robot/images_writeup/12_two_objects_in_bin.png)
-![demo-1](https://user-images.githubusercontent.com/20687560/28748231-46b5b912-7467-11e7-8778-3095172b7b19.png)
+![flinging_objects](pr2_robot/images_writeup/14_flinging_objects.png)
 
 I then looked for that bigger challenge and loaded up the `challenge.world` scenario. Here are my results. 
 
 
 
 
-I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do.
+I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do. Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge.
 
 
