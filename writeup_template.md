@@ -135,10 +135,17 @@ After the biscuits had been picked up, a new collision map with the glue and bis
 
 Here is a collision map for world 3
 ![collision_map_world3](pr2_robot/images_writeup/12b_collision_map_w3.png)
-I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get all of the objects into the boxes. sometimes my robot liked to throw things around and but i did get a few instances with all the objects in the boxes, the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map. I changed the x position for the boxes slightly as originally the larger objects were being placed at the edge of the box and then would fall out
+I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get all of the objects into the boxes. 
 
-![two_objects](pr2_robot/images_writeup/12_two_objects_in_bin.png)
+
+sometimes my robot liked to throw things around and but i did get a few instances with all the objects in the boxes, the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map. 
 ![flinging_objects](pr2_robot/images_writeup/14_flinging_objects.png)
+
+I changed the x position for the boxes slightly as originally the larger objects were being placed at the edge of the box and then would fall out
+![two_objects](pr2_robot/images_writeup/12_two_objects_in_bin.png)
+
+
+Here you can see all the objects in the box!
 ![objects_all_in_box](pr2_robot/images_writeup/15_objects_in_box.png)
 
 
