@@ -148,7 +148,8 @@ I changed the x position for the boxes slightly as originally the larger objects
 Here you can see all the objects in the box!
 ![objects_all_in_box](pr2_robot/images_writeup/15_objects_in_box.png)
 
-
+one more for good measure.
+![objects_in_box_again](pr2_robot/images_writeup/17_objects_in_box.png)
 I would want to improve the pr2_mover code in the next round as my robot was throwing the objects or holding on to them sometimes rather than placing in bin. Finicky guy!!! of course, Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge.
 
 I would like to figure out how to snapshot the side tables and filter for adding to my collision map. Thats a part that I didn't quite grasp yet.
