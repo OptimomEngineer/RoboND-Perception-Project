@@ -73,7 +73,7 @@ def move_pr2_robot(pos_js):
     return time_elapsed
 
 
-##this will run continously subscribing so that we know where we are
+##this will run continously subscribing so that we know where we are, not sure if it would work
 def joint_state_update(joint_state_pos):
     global joint_state
     joint_state = joint_state_pos
