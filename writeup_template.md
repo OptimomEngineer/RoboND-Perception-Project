@@ -120,7 +120,7 @@ rosrun pr2_robot project_template.py
 The program will continue until all the objects have been placed into the bin.
 
 #### Collision Map of side tables:
-I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of (+/-)1.57 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge. I compared the subscribed value to the given value and then when reached i wanted to create a collision map and then append to the one I created for objects and table. I ran out of time and need to figure out how to take a snapshot of my new view to save and then append. 
+I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of (+/-)1.57 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge. I compared the subscribed value to the given value and then when reached i wanted to create a collision map and then append to the one I created for objects and table. I ran out of time and need to figure out how to take a snapshot of my new view to save and then append. (I commented this out for the submission as it was taking up time for the pick and place)... I need to learn more about this part.
 
 #### pick and place with current front view (without collision map of side tables)
 I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. I did this by nesting loops after I found out that the robot was skipping items because the detected objects list wasn't in the same order as the yaml list. So once I nested the loops to find each item and append the centroid for each object, the robot was able to identify the correct objects and adjust the collision map for each desired object. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
@@ -141,13 +141,9 @@ I created a ROS Client for the “pick_place_routine” rosservice with the corr
 ![flinging_objects](pr2_robot/images_writeup/14_flinging_objects.png)
 ![objects_all_in_box](pr2_robot/images_writeup/15_objects_in_box.png)
 
-I then looked for that bigger challenge and loaded up the `challenge.world` scenario. Here are my results. 
-
-
-
 
 I would want to improve the pr2_mover code in the next round as my robot was throwing the objects or holding on to them sometimes rather than placing in bin. Finicky guy!!! of course, Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge.
 
-I would like to figure out how to snapshot the side tables and filter for adding to my collision map. 
+I would like to figure out how to snapshot the side tables and filter for adding to my collision map. Thats a part that I didn't quite grasp yet.
 
 
