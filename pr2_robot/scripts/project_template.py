@@ -29,6 +29,8 @@ from pr2_robot.srv import *
 from rospy_message_converter import message_converter
 import yaml
 from std_srvs.srv import Empty
+from sensor_msgs.msg import JointState
+import time
 
     
 # Helper function to get surface normals
@@ -52,12 +54,38 @@ def send_to_yaml(yaml_filename, dict_list):
     with open(yaml_filename, 'w') as outfile:
         yaml.dump(data_dict, outfile, default_flow_style=False)
 
+#from arm mover to help with robot mapping collision and turning -pi/2 and pi/2
+def at_goal(pos_j1, goal_j1):
+    tolerance = .5
+    result = abs(pos_j1 - goal_j1) <= abs(tolerance)
+    return result
+
+#from arm mover to help with robot mapping collision and turning -pi/2 and pi/2	
+def move_pr2_robot(pos_js):
+    time_elapsed = rospy.Time.now()
+    pr2_base_mover_pub.publish(pos_js)
+    while True:
+	joint_state = rospy.wait_for_message('/pr2/joint_states', JointState)
+	if at_goal(pos_js, pos_js): #joint_state.position[0]
+		rospy.loginfo('Reached {}'.format(pos_js))
+		time_elapsed = joint_state.header.stamp - time_elapsed	
+		break	
+    return time_elapsed
+
+
+##this will run continously subscribing so that we know where we are
+def joint_state_update(joint_state_pos):
+    global joint_state
+    joint_state = joint_state_pos
+    
+
 # Callback function for your Point Cloud Subscriber
 def pcl_callback(pcl_msg):
      
     global ros_cloud_table
     global detected_objects
     
+
     # TODO: Convert ROS msg to PCL data, do this by using the pcl_helper functions:
     cloud = ros_to_pcl(pcl_msg)
     
@@ -161,6 +189,8 @@ def pcl_callback(pcl_msg):
     pcl_table_pub.publish(ros_cloud_table)
     pcl_cluster_pub.publish(ros_cluster_cloud)
 
+
+    
     # Classify the clusters! (loop through each detected cluster one at a time)
     detected_objects_labels = []
     detected_objects = []
@@ -207,9 +237,7 @@ def pcl_callback(pcl_msg):
 
 def pr2_mover(object_list): 
 
-    # TODO: Initialize variables to use for sending message to pickplace service
-    
-    
+    # TODO: Initialize variables to use for sending message to pickplace service  
     object_name    = String()
     arm_name       = String()    
     pick_pose      = Pose()
@@ -236,12 +264,28 @@ def pr2_mover(object_list):
     # TODO: Parse parameters into individual variables for boxes
     red = box_param[0]['position']
     green = box_param[1]['position']   
+ 
+    # TODO: Rotate PR2 in place to capture side tables for the collision map, use simple mover - joint states topic. 
+    # Next step would be to include this in appending the existing collision map.
+#    rospy.loginfo('Rotating Robot to capture collision map')
+#    time_elapsed_right = move_pr2_robot(1.57)
+#    
+#    time.sleep(time_elapsed_right.secs)
+#    rospy.loginfo('Completed rotating pr2 to the right')
+#   
+#    rospy.loginfo('Rotating pr2 to the left')
+#    time_elapsed_left = move_pr2_robot(-1.57)
+#    time.sleep(time_elapsed_left.secs)
+#    rospy.loginfo('Completed rotating pr2 to the left')
+# 
+#    rospy.loginfo('Rotating pr2 to the center')
+#    time_elapsed_center = move_pr2_robot(0.0)
+#    rospy.loginfo('Completed rotating pr2 to the center')
+#    time.sleep(time_elapsed_center.secs)
 
-   
-
+#    rospy.loginfo('Rotation for collision map is complete')
     
-
-    # TODO: Loop through the pick list
+    #TODO: Loop through the pick list
     labels = []
     centroids = [] # to be list of tuples (x, y, z)np.asscalar(centroids[index][0])
     yaml_dict_list = []
@@ -273,12 +317,12 @@ def pr2_mover(object_list):
         # TODO: Assign the arm to be used for pick_place and therfore also place position.
  	if object_group == box_param[0]['group']:
 		arm_name.data = box_param[0]['name']
-		place_pose.position.x = red[0]-0.05
+		place_pose.position.x = red[0]-0.1
 		place_pose.position.y = red[1]
 		place_pose.position.z = red[2]   	
 	else: 
 		arm_name.data = box_param[1]['name']
-		place_pose.position.x = green[0]-0.08
+		place_pose.position.x = green[0]-0.12
 		place_pose.position.y = green[1]
 		place_pose.position.z = green[2]
        
@@ -337,7 +381,7 @@ if __name__ == '__main__':
     
     # TODO: Create Subscribers
     pcl_sub = rospy.Subscriber("/pr2/world/points", pc2.PointCloud2, pcl_callback, queue_size =1)
-    #joint_state_pos = rospy.Subscriber("joint_states", JointState, joint_state_update)
+    joint_state_pos = rospy.Subscriber("/pr2/joint_states", JointState, joint_state_update)
     
     #Octomap Services
     rospy.wait_for_service("/clear_octomap")
@@ -349,7 +393,7 @@ if __name__ == '__main__':
     pcl_cluster_pub = rospy.Publisher("/pcl_cluster", PointCloud2, queue_size =1)
     object_markers_pub = rospy.Publisher("/object_markers", Marker, queue_size =1)
     detected_objects_pub = rospy.Publisher("/detected_objects", DetectedObjectsArray, queue_size =1)
-    #pr2_base_mover_pub = rospy.Publisher("/pr2/world_joint_controller/command", Float64, queue_size=1)
+    pr2_base_mover_pub = rospy.Publisher("/pr2/world_joint_controller/command", Float64, queue_size=1)
     pr2_collision_pub = rospy.Publisher("/pr2/3d_map/points",PointCloud2, queue_size =1)
 
     # Initialize color_list
