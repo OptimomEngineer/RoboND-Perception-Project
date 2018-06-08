@@ -73,7 +73,7 @@ Here is the extra "bar" from the table shown from the projects. I needed to add 
 
 I was missing an object or including objects I didn't want to until I had the correct filtering conditions that worked to identify all the objects. I also included a k-means euclidean filtering and gave each object a unique color. Udacity's helper file eased the process by including some functions that helped generate random colors.
 
-Finally I located the centriod, though I feel like i could have extended this further to create a centroid from the max, mean and min values, I only developed the centroid from the mean value. I think the robot would have an easier time grasping the objects with a centroid created from mulitple values. 
+Finally I located the centriod, though I feel like i could have extended this further to create a centroid from the max, mean and min values, I only developed the centroid from the mean value. I think the robot would have an easier time grasping the objects with a centroid created from mulitple values. There were some moments of unsturdiness or what looked like that the robot might have dropped some of the objects.
 
 
 Each world recognition is shown below and the associated .yaml files are located [here](https://github.com/OptimomEngineer/RoboND-Perception-Project/tree/master/pr2_robot/output)
@@ -123,7 +123,7 @@ The program will continue until all the objects have been placed into the bin.
 I rotated the robot with a function I created using the simple mover coding we had learnt earlier in the course. I allowed a general turn of (+/-)1.57 radians that and then when the robot reached a sufficient joint angle, I published the joint angle I received from the jointstate value that I subscribed to in the function using this: pr2_base_mover_pub.publish(joint_state.position[0]). Then of course I rotated back to original state in order to complete the challenge. I compared the subscribed value to the given value and then when reached i wanted to create a collision map and then append to the one I created for objects and table. I ran out of time and need to figure out how to take a snapshot of my new view to save and then append. 
 
 #### pick and place with current front view (without collision map of side tables)
-I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
+I moved on to complete the Pick and Place extra challenge. I published a pointcloud to the /pr2/3d_map/points topic by ammended each pointcloud for each object that was not going to be picked up and then ammended the table to the collision map. I did this by nesting loops after I found out that the robot was skipping items because the detected objects list wasn't in the same order as the yaml list. So once I nested the loops to find each item and append the centroid for each object, the robot was able to identify the correct objects and adjust the collision map for each desired object. After the object was picked up I then cleared the collision map using some octomap commands that I learned from a ROS book.(See code for details)
 
 here you see the collision map for the first object in world 2 for biscuits.
 
@@ -133,17 +133,21 @@ After the biscuits had been picked up, a new collision map with the glue and bis
 
 ![collision_map_glue](pr2_robot/images_writeup/12a_newconfusion_matrix_glue.png)
 
-I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get some of the objects into the boxes. unfortunately my robot liked to throw things around and I wasn't able to get a picture with all the objects in the boxes, however the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map.
+Here is a collision map for world 3
+![collision_map_world3](pr2_robot/images_writeup/12b_collision_map_w3.png)
+I created a ROS Client for the “pick_place_routine” rosservice with the correct arguments and was able to get all of the objects into the boxes. sometimes my robot liked to throw things around and but i did get a few instances with all the objects in the boxes, the correct arm performed to pick place each time and displayed the correct trajectories using the correct collision map. I changed the x position for the boxes slightly as originally the larger objects were being placed at the edge of the box and then would fall out
 
 ![two_objects](pr2_robot/images_writeup/12_two_objects_in_bin.png)
 ![flinging_objects](pr2_robot/images_writeup/14_flinging_objects.png)
+![objects_all_in_box](pr2_robot/images_writeup/15_objects_in_box.png)
 
 I then looked for that bigger challenge and loaded up the `challenge.world` scenario. Here are my results. 
 
 
 
 
-I would want to improve the placement of the objects and also work on the pr2_mover code in the next round as my robot was consistently throwing the objects rather than placing in bin. Finicky guy!!! Another improvement I would like to make is the timing of how quickly the robot performs. Both of these things are not in the scope of this project, but just something I would like to do. Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge. 
-I would like to figure out how to snapshot the side tables and filter for adding to my collision map. I would also like to put some conditional statements in to control the robots capability to continue to try to pick up current object until it is off the table. I didn't like how the robot would miss its target and then move on to the next one...
+I would want to improve the pr2_mover code in the next round as my robot was throwing the objects or holding on to them sometimes rather than placing in bin. Finicky guy!!! of course, Gazebo is also not stable and has a high learning curve as does ROS, this project and the extra challenges really gave me a great grasp of both. I can definitely create many other projects with my new knowledge.
+
+I would like to figure out how to snapshot the side tables and filter for adding to my collision map. 
 
 
